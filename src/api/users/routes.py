@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from src.api.users.schemas import CreateUserSchema, GetUserSchema
 from src.api.users.services import get_all_users, get_user_by_id
-from src.db.models.users import User
 from src.db.postgresql import get_db
 
 router = APIRouter()
