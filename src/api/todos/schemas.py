@@ -1,9 +1,5 @@
 from pydantic import Field
-from pydantic import BaseModel, ConfigDict
-
-
-class BaseSchema(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
+from src.api.schemas import BaseSchema
 
 
 class TodoSchema(BaseSchema):
