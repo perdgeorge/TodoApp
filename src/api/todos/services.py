@@ -36,7 +36,7 @@ def create_todo(
     return add_todo(db, new_todo)
 
 
-def update_todo(
+def update_todo_by_id(
     db: Session, todo_id: int, todo_data: CreateTodoSchema
 ) -> GetTodoSchema:
     todo = db.query(Todo).filter(Todo.id == todo_id).first()
@@ -52,3 +52,13 @@ def update_todo(
         return GetTodoSchema.model_validate(todo)
     except HTTPException:
         raise HTTPException(status_code=409, detail="Todo title already exists")
+
+
+def delete_todo_by_id(db: Session, todo_id: int) -> GetTodoSchema:
+    todo = db.query(Todo).filter(Todo.id == todo_id).first()
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+    else:
+        db.delete(todo)
+        db.commit()
+        return GetTodoSchema.model_validate(todo)
