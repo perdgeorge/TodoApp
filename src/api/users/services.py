@@ -25,9 +25,8 @@ def add_user(db: Session, user: User) -> GetUserSchema:
 
 
 def create_user(db: Session, user_data: CreateUserSchema) -> GetUserSchema:
-    hashed_password = hash_password(user_data.password)
     new_user = User(
         username=user_data.username,
-        hashed_password=hashed_password,
+        hashed_password=hash_password(user_data.password),
     )
-    return add_user(new_user)
+    return add_user(db, new_user)
