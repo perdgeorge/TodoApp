@@ -34,3 +34,21 @@ def create_todo(
 ) -> GetTodoSchema:
     new_todo = Todo(title=todo_data.title, description=todo_data.description)
     return add_todo(db, new_todo)
+
+
+def update_todo(
+    db: Session, todo_id: int, todo_data: CreateTodoSchema
+) -> GetTodoSchema:
+    todo = db.query(Todo).filter(Todo.id == todo_id).first()
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+    try:
+        if todo_data.title is not None:
+            todo.title = todo_data.title
+        if todo_data.description is not None:
+            todo.description = todo_data.description
+        db.commit()
+        db.refresh(todo)
+        return GetTodoSchema.model_validate(todo)
+    except HTTPException:
+        raise HTTPException(status_code=409, detail="Todo title already exists")

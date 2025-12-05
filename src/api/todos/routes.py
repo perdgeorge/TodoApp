@@ -1,11 +1,13 @@
-from fastapi import APIRouter, Body, Depends
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from src.db.postgresql import get_db
-from src.api.todos.services import get_all_todos, get_todo_by_id, create_todo
-from src.api.todos.schemas import (
-    CreateTodoSchema,
-    GetTodoSchema,
+from src.api.todos.services import (
+    get_all_todos,
+    get_todo_by_id,
+    create_todo,
+    update_todo,
 )
+from src.api.todos.schemas import CreateTodoSchema, GetTodoSchema, UpdateTodoSchema
 
 router = APIRouter()
 
@@ -30,6 +32,16 @@ async def get_todo(todo_id: int, db: Session = Depends(get_db)):
     status_code=201,
 )
 async def register_todo(
-    todo_data: CreateTodoSchema = Body(...), db: Session = Depends(get_db)
+    todo_id: int, todo_data: CreateTodoSchema, db: Session = Depends(get_db)
 ) -> GetTodoSchema:
     return create_todo(db, todo_data)
+
+
+@router.put(
+    "/{user_id}",
+    response_model=GetTodoSchema,
+)
+async def update_todoo(
+    todo_id: int, todo_data: UpdateTodoSchema, db: Session = Depends(get_db)
+) -> GetTodoSchema:
+    return update_todo(db, todo_id, todo_data)
