@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import Field
 from src.api.schemas import BaseSchema
 
@@ -5,14 +6,14 @@ from src.api.schemas import BaseSchema
 class TodoSchema(BaseSchema):
     title: str = Field(
         ...,
+        examples=["Buy groceries"],
     )
-    description: str = Field(
-        ...,
-    )
+    description: str = Field(..., examples=["Milk, Bread, Eggs"])
 
 
 class GetTodoSchema(TodoSchema):
     id: int = Field(..., examples=[1])
+    completed_at: datetime | None = Field(..., examples=["2025-11-14T12:00:00Z"])
 
 
 class CreateTodoSchema(TodoSchema):
@@ -20,13 +21,8 @@ class CreateTodoSchema(TodoSchema):
 
 
 class UpdateTodoSchema(TodoSchema):
-    title: str = Field(
-        ...,
-    )
-    description: str = Field(
-        ...,
-    )
-
-
-class DeleteTodoSchema(GetTodoSchema):
     pass
+
+
+class DeleteTodoSchema(TodoSchema):
+    id: int = Field(..., examples=[1])
