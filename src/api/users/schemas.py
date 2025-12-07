@@ -3,7 +3,7 @@ from src.api.schemas import BaseSchema
 
 
 class UserSchema(BaseSchema):
-    username: str = Field(..., example=["exampleuser"])
+    username: str = Field(..., examples=["exampleuser"])
 
 
 class CreateUserSchema(UserSchema):
