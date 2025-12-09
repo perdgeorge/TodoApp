@@ -120,7 +120,7 @@ async def Mark_Task_as_completed(
 @router.delete(
     "/{todo_id}",
     response_model=GetTodoSchema,
-    status_code=200,
+    status_code=204,
     responses={
         404: {"model": ErrorResponse, "description": "Task not found"},
         500: {"model": ErrorResponse, "description": "Internal server error"},
