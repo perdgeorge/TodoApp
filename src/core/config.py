@@ -13,6 +13,9 @@ class Config(BaseConfig):
     POSTGRES_PORT: int
     POSTGRES_DB: str
     DB_URL: str
+    SECRET_KEY: str
+    ALGORITHM: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
 
 
 def get_config(env_state):
